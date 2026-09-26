@@ -1,12 +1,19 @@
-﻿__pycache__/
-*.py[cod]
-*.pyo
-.vscode/
-.venv/
+﻿# Java stuff to ignore (Junk files)
+target/
+*.class
+*.jar
+.mvn/
+
+# Python stuff to ignore (Junk files)
+__pycache__/
+*.pyc
 venv/
-env/
-*.log
-data/osteosense.db
-data/last_report.txt
-data/screening_results.csv
-data/training_data.csv
+.env
+
+# VS Code / IDE stuff to ignore
+.idea/
+.vscode/
+*.iml
+
+# Database file (Only if you made the database permanent)
+data/
