@@ -55,20 +55,32 @@ public class AssessmentController {
     }
 
     // STATISTICS: For dashboard
-    @GetMapping("/stats")
-    public Map<String, Object> getStats() {
-        List<Assessment> all = service.getAllAssessments();
-        
-        Map<String, Object> stats = new HashMap<>();
-        stats.put("totalScreenings", all.size());
-        stats.put("highRiskCases", service.getHighRiskPatients().size());
-        stats.put("moderateRisk", all.stream()
-                .filter(a -> "Moderate Risk".equals(a.getRiskLevel())).count());
-        stats.put("lowerRisk", all.stream()
-                .filter(a -> "Lower Risk".equals(a.getRiskLevel())).count());
-        
-        return stats;
-    }
+    
+@GetMapping("/stats")
+public Map<String, Object> getStats() {
+    List<Assessment> all = service.getAllAssessments();
+    
+    Map<String, Object> stats = new HashMap<>();
+    stats.put("totalScreenings", all.size());
+    
+    // Case-insensitive matching that catches ANY variation
+    stats.put("highRiskCases", all.stream()
+            .filter(a -> a.getRiskLevel() != null && 
+                   a.getRiskLevel().toLowerCase().matches(".*(high|red|severe).*"))
+            .count());
+            
+    stats.put("moderateRisk", all.stream()
+            .filter(a -> a.getRiskLevel() != null && 
+                   a.getRiskLevel().toLowerCase().contains("moderate"))
+            .count());
+            
+    stats.put("lowerRisk", all.stream()
+            .filter(a -> a.getRiskLevel() != null && 
+                   a.getRiskLevel().toLowerCase().matches(".*(low|mild).*"))
+            .count());
+    
+    return stats;
+}
 
     // HEALTH CHECK
     @GetMapping("/health")

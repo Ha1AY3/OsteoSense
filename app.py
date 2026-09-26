@@ -20,7 +20,7 @@ class PatientData(BaseModel):
     pain_after_activity: bool
     pain_at_rest: bool
     gives_way: bool
-    sleep_disturbance: bool
+    sleep_disturbance: bool   
     bmi: float
 
 @app.post("/calculate_risk")
