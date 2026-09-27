@@ -1,31 +1,22 @@
-﻿# Java / Maven build files
+﻿# Java / Spring Boot build files
 target/
 *.class
 *.jar
-*.war
-.mvn/
 
 # Python cache and virtual environments
 __pycache__/
 *.py[cod]
-*$py.class
 venv/
 ENV/
-env/
-*.egg-info/
 
-# Database file (We ignore the physical DB file, we will just push the CSV and upload script)
+# Database file (Keep the CSV, ignore the physical DB file)
 data/
 
 # IDE and Editor files
 .idea/
-*.iml
 .vscode/
-.project
-.classpath
-.settings/
+*.iml
 
 # OS files
 .DS_Store
 Thumbs.db
-desktop.ini
