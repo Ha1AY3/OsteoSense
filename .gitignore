@@ -1,19 +1,31 @@
-﻿# Java stuff to ignore (Junk files)
+﻿# Java / Maven build files
 target/
 *.class
 *.jar
+*.war
 .mvn/
 
-# Python stuff to ignore (Junk files)
+# Python cache and virtual environments
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 venv/
-.env
+ENV/
+env/
+*.egg-info/
 
-# VS Code / IDE stuff to ignore
-.idea/
-.vscode/
-*.iml
-
-# Database file (Only if you made the database permanent)
+# Database file (We ignore the physical DB file, we will just push the CSV and upload script)
 data/
+
+# IDE and Editor files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
