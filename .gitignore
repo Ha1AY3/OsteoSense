@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# Node & Next.js dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -13,30 +13,47 @@
 # testing
 /coverage
 
-# next.js
+# Next.js build
 /.next/
 /out/
-
-# production
 /build
 
-# misc
-.DS_Store
-*.pem
+# Java / Spring Boot build files
+target/
+*.class
+*.jar
 
-# debug
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+ENV/
+
+# Database files
+data/
+*.db
+*.sqlite
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.iml
+
+# misc & OS
+.DS_Store
+Thumbs.db
+*.pem
+next-env.d.ts
+*.tsbuildinfo
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
-
-# vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# local scratch/temp folder
 OsteoSense/
