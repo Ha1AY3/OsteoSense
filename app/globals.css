@@ -10,6 +10,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* OsteoSense Medical Design Tokens */
+  --color-primary: #0F766E;
+  --color-primary-light: #14B8A6;
+  --color-primary-dark: #0D5F58;
+  --color-accent: #0284C7;
+  --color-risk-lower: #22C55E;
+  --color-risk-moderate: #F59E0B;
+  --color-risk-higher: #EF4444;
+  --color-risk-flag: #DC2626;
+  --color-surface: #F8FAFC;
+  --color-surface-card: #FFFFFF;
+  --color-border: #E2E8F0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +35,233 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Floating Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0.6deg);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes border-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-float {
+  animation: float 4.5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 5.5s ease-in-out 1.5s infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+.animate-border-glow {
+  background-size: 200% 200%;
+  animation: border-shimmer 6s linear infinite;
+}
+
+/* Scrolltide-inspired Marquee & Card Glow */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(15, 118, 110, 0.18), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.group:hover .card-glow {
+  opacity: 1;
+}
+
+/* Lenis Recommended Global Rules (Landing Page Only) */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Custom subtle scrollbars for clinical dashboard */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Print styles for report generation */
+@media print {
+  body { background: white; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animate-float,
+  .animate-float-delayed,
+  .animate-float-slow,
+  .animate-pulse-subtle {
+    animation: none !important;
+  }
+}
+
+/* ========================================================= */
+/* CARD HOVER IMAGE & TEXT SWAP (Augmented-Workforce-inspired) */
+/* ========================================================= */
+.card-swap-image {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  transition: background 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-swap-image:hover {
+  background: #061e23;
+  border-color: rgba(45, 212, 191, 0.35);
+  box-shadow: 0 28px 65px -24px rgba(4, 26, 30, 0.65);
+  transform: translateY(-3px);
+}
+
+.card-image-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-swap-image:hover .card-image-bg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Diagonal variant with angled geometry slash */
+.card-swap-image.hover-diagonal .card-image-bg {
+  inset: 0 auto 0 28%;
+  width: 80%;
+  clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+  transform: translate(20%, -8%) rotate(6deg) scale(1.08);
+  transform-origin: 50%;
+  opacity: 0;
+}
+.card-swap-image.hover-diagonal:hover .card-image-bg {
+  opacity: 1;
+  transform: translate(0) rotate(0) scale(1);
+}
+
+/* Floating top preview variant */
+.card-swap-image.hover-float-top .card-image-bg {
+  inset: 1rem 1rem auto auto;
+  width: min(13rem, 58%);
+  height: 48%;
+  border-radius: 1rem;
+  transform: translate(24px, -28px) rotate(6deg) scale(0.9);
+  box-shadow: 0 22px 40px -24px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+}
+.card-swap-image.hover-float-top:hover .card-image-bg {
+  opacity: 1;
+  transform: translate(0) rotate(0) scale(1);
+}
+
+/* Full cover variant */
+.card-swap-image.hover-cover .card-image-bg {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(1.1);
+}
+.card-swap-image.hover-cover:hover .card-image-bg {
+  opacity: 1;
+  transform: scale(1);
 }
