@@ -28,12 +28,10 @@
 - [Data Flow](#data-flow)
 - [Getting Started](#getting-started)
 - [Configuration](#configuration)
-- [Current Prototype vs Planned Development](#current-prototype-vs-planned-development)
+- [Current Prototype](#current-prototype)
+- [Planned Development](#planned-development)
 - [Safety and Clinical Scope](#safety-and-clinical-scope)
 - [Roadmap](#roadmap)
-- [Documentation](#documentation)
-- [License](#license)
-
 ---
 
 ## Overview
@@ -62,7 +60,7 @@ OsteoSense is composed of three independently deployable services.
 ```mermaid
 flowchart TB
 
-    subgraph FE["FRONTEND PORTAL :3000"]
+    subgraph FE["FRONTEND PORTAL"]
         direction TB
 
         FSTACK["Next.js 15 · React 19 · Tailwind · Three.js"]
@@ -77,7 +75,7 @@ flowchart TB
         FSTACK --> FM
     end
 
-    subgraph BE["BACKEND API :8080"]
+    subgraph BE["BACKEND API"]
         direction TB
 
         BSTACK["Spring Boot 3 · Java 17"]
@@ -397,424 +395,116 @@ flowchart TB
   stratification.
 </blockquote>
 
+---
 
-<hr />
+## Configuration
 
-<h2>Configuration</h2>
+OsteoSense uses separate configuration points for the frontend, Spring Boot backend, and AI/ML service.
 
-<p>
-  OsteoSense uses separate configuration points for the frontend,
-  Spring Boot backend, and AI/ML service.
-</p>
+| **File** | **Purpose** |
+| --- | --- |
+| `src/main/resources/application.properties` | Spring Boot backend configuration |
+| `lib/api/client.ts` | Frontend API client and backend base URL |
+| `.env.local` | Frontend environment variables |
+| `oa_risk_engine.py` | ML model loading and inference configuration |
 
-<table>
-  <thead>
-    <tr>
-      <th>File</th>
-      <th>Purpose</th>
-    </tr>
-  </thead>
+Keep environment-specific credentials, API keys, and other secrets outside the source-controlled codebase.
 
-  <tbody>
-    <tr>
-      <td>
-        <code>src/main/resources/application.properties</code>
-      </td>
-      <td>Spring Boot backend configuration</td>
-    </tr>
+---
 
-    <tr>
-      <td><code>lib/api/client.ts</code></td>
-      <td>Frontend API client and backend base URL</td>
-    </tr>
+## Current Prototype
 
-    <tr>
-      <td><code>.env.local</code></td>
-      <td>Frontend environment variables</td>
-    </tr>
+The current prototype provides an end-to-end screening workflow covering patient registration, structured assessment, sensor telemetry ingestion, AI-assisted risk stratification, and referral support.
 
-    <tr>
-      <td><code>oa_risk_engine.py</code></td>
-      <td>ML model loading and inference configuration</td>
-    </tr>
-  </tbody>
-</table>
+### Implemented
 
-<p>
-  Keep environment-specific credentials, API keys, and other secrets
-  outside the source-controlled codebase.
-</p>
+| **Capability** | **Description** |
+| --- | --- |
+| **CHW Screening Workflow** | Next.js clinician portal with a multi-step assessment workflow |
+| **3D Visualisation** | Interactive anatomical biomechanics visualisation using Three.js |
+| **Backend API** | Spring Boot REST API for patient and assessment operations |
+| **AI / ML Service** | FastAPI service providing the OA risk engine |
+| **Risk Modelling** | XGBoost and Random Forest based risk estimation |
+| **Persistence** | SQLite-based local persistent storage |
+| **Referral Reports** | Structured referral report generation |
+| **Voice Synthesis** | Multi-lingual voice synthesis endpoint |
+| **Sensor Telemetry** | Bio-acoustic and movement sensor telemetry ingestion |
 
+---
 
-<hr />
+## Planned Development
 
-<h2>Current Prototype</h2>
+The following capabilities are planned or currently in progress as OsteoSense evolves toward broader validation and deployment.
 
-<p>
-  The current prototype provides an end-to-end screening workflow
-  covering patient registration, structured assessment, sensor
-  telemetry ingestion, AI-assisted risk stratification, and referral
-  support.
-</p>
+| **Planned Capability** | **Purpose** | **Status** |
+| --- | --- | --- |
+| **Bio-acoustic ML Integration** | Integrate real bio-acoustic sensor features directly into the ML inference pipeline | In Progress |
+| **Sensor Fusion** | Combine clinical, acoustic, movement, and other sensor features | Planned |
+| **Camera-based Movement Analysis** | Expand movement-derived feature extraction | Planned |
+| **Multi-lingual Coverage** | Expand language support for frontline CHW deployments | Planned |
+| **Offline Synchronisation** | Support distributed deployments with intermittent connectivity | Planned |
+| **Automated PDF Export** | Generate downloadable and shareable referral reports | Planned |
+| **Clinical Validation** | Validate the ML model using appropriately labelled clinical data | Planned |
+| **Field Testing** | Evaluate usability and workflow performance with community health workers | Planned |
 
-<h3>Implemented</h3>
+---
 
-<table>
-  <thead>
-    <tr>
-      <th>Capability</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+## Safety and Clinical Scope
 
-  <tbody>
-    <tr>
-      <td><strong>CHW Screening Workflow</strong></td>
-      <td>
-        Next.js clinician portal with a multi-step assessment workflow
-      </td>
-    </tr>
+**OsteoSense is a screening and decision-support tool.**
 
-    <tr>
-      <td><strong>3D Visualisation</strong></td>
-      <td>
-        Interactive anatomical biomechanics visualisation using Three.js
-      </td>
-    </tr>
+OsteoSense is designed to support community health workers by providing structured assessment information and preliminary osteoarthritis risk stratification.
 
-    <tr>
-      <td><strong>Backend API</strong></td>
-      <td>
-        Spring Boot REST API for patient and assessment operations
-      </td>
-    </tr>
+OsteoSense does **not**:
 
-    <tr>
-      <td><strong>AI / ML Service</strong></td>
-      <td>
-        FastAPI service providing the OA risk engine
-      </td>
-    </tr>
+- Confirm an osteoarthritis diagnosis
+- Replace a physician or qualified clinical assessment
+- Replace radiological or other diagnostic examinations
+- Prescribe treatment
+- Independently determine a patient's clinical condition
 
-    <tr>
-      <td><strong>Risk Modelling</strong></td>
-      <td>
-        XGBoost and Random Forest based risk estimation
-      </td>
-    </tr>
+The system provides preliminary screening information intended to help identify individuals who may require further professional evaluation.
 
-    <tr>
-      <td><strong>Persistence</strong></td>
-      <td>
-        SQLite-based local persistent storage
-      </td>
-    </tr>
+**Final diagnosis and clinical decisions remain the responsibility of qualified healthcare professionals.**
 
-    <tr>
-      <td><strong>Referral Reports</strong></td>
-      <td>
-        Structured referral report generation
-      </td>
-    </tr>
+---
 
-    <tr>
-      <td><strong>Voice Synthesis</strong></td>
-      <td>
-        Multi-lingual voice synthesis endpoint
-      </td>
-    </tr>
+## Roadmap
 
-    <tr>
-      <td><strong>Sensor Telemetry</strong></td>
-      <td>
-        Bio-acoustic and movement sensor telemetry ingestion
-      </td>
-    </tr>
-  </tbody>
-</table>
+```mermaid
+flowchart LR
 
+    P1["Phase 1<br/>CHW Questionnaire &<br/>Clinician UI"]
+    P2["Phase 2<br/>3D Anatomical<br/>Visualisation"]
+    P3["Phase 3<br/>Spring Boot Backend<br/>& REST API"]
+    P4["Phase 4<br/>FastAPI AI Service<br/>& Risk Engine"]
+    P5["Phase 5<br/>Sensor Telemetry<br/>Integration"]
+    P6["Phase 6<br/>ML Model Validation<br/>with Clinical Data"]
+    P7["Phase 7<br/>Field Testing<br/>with CHWs"]
+    P8["Phase 8<br/>Regulatory &<br/>Compliance Review"]
 
-<hr />
+    P1 --> P2 --> P3 --> P4 --> P5 --> P6 --> P7 --> P8
 
-<h2>Planned Development</h2>
+    classDef complete fill:#14532d,stroke:#4ade80,stroke-width:2px,color:#f8fafc
+    classDef progress fill:#713f12,stroke:#facc15,stroke-width:2px,color:#f8fafc
+    classDef planned fill:#1e293b,stroke:#64748b,stroke-width:2px,color:#f8fafc
 
-<p>
-  The following capabilities are planned or currently in progress as
-  OsteoSense evolves toward broader validation and deployment.
-</p>
+    class P1,P2,P3,P4 complete
+    class P5 progress
+    class P6,P7,P8 planned
+```
 
-<table>
-  <thead>
-    <tr>
-      <th>Planned Capability</th>
-      <th>Purpose</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td><strong>Bio-acoustic ML Integration</strong></td>
-      <td>
-        Integrate real bio-acoustic sensor features directly into the
-        ML inference pipeline
-      </td>
-      <td>In Progress</td>
-    </tr>
-
-    <tr>
-      <td><strong>Sensor Fusion</strong></td>
-      <td>
-        Combine clinical, acoustic, movement, and other sensor features
-      </td>
-      <td>Planned</td>
-    </tr>
-
-    <tr>
-      <td><strong>Camera-based Movement Analysis</strong></td>
-      <td>
-        Expand movement-derived feature extraction
-      </td>
-      <td>Planned</td>
-    </tr>
-
-    <tr>
-      <td><strong>Multi-lingual Coverage</strong></td>
-      <td>
-        Expand language support for frontline CHW deployments
-      </td>
-      <td>Planned</td>
-    </tr>
-
-    <tr>
-      <td><strong>Offline Synchronisation</strong></td>
-      <td>
-        Support distributed deployments with intermittent connectivity
-      </td>
-      <td>Planned</td>
-    </tr>
-
-    <tr>
-      <td><strong>Automated PDF Export</strong></td>
-      <td>
-        Generate downloadable and shareable referral reports
-      </td>
-      <td>Planned</td>
-    </tr>
-
-    <tr>
-      <td><strong>Clinical Validation</strong></td>
-      <td>
-        Validate the ML model using appropriately labelled clinical data
-      </td>
-      <td>Planned</td>
-    </tr>
-
-    <tr>
-      <td><strong>Field Testing</strong></td>
-      <td>
-        Evaluate usability and workflow performance with community
-        health workers
-      </td>
-      <td>Planned</td>
-    </tr>
-  </tbody>
-</table>
-
-
-<hr />
-
-<h2>Safety and Clinical Scope</h2>
+---
 
 <div align="center">
 
-  <p>
-    <strong>
-      OsteoSense is a screening and decision-support tool.
-    </strong>
-  </p>
+## OsteoSense
 
-</div>
+**AI-assisted screening for accessible frontline musculoskeletal healthcare.**
 
-<p>
-  OsteoSense is designed to support community health workers by
-  providing structured assessment information and preliminary
-  osteoarthritis risk stratification.
-</p>
-
-<p>OsteoSense does <strong>not</strong>:</p>
-
-<ul>
-  <li>Confirm an osteoarthritis diagnosis</li>
-  <li>Replace a physician or qualified clinical assessment</li>
-  <li>Replace radiological or other diagnostic examinations</li>
-  <li>Prescribe treatment</li>
-  <li>Independently determine a patient's clinical condition</li>
-</ul>
-
-<p>
-  The system provides preliminary screening information intended to
-  help identify individuals who may require further professional
-  evaluation.
-</p>
-
-<p>
-  <strong>
-    Final diagnosis and clinical decisions remain the responsibility
-    of qualified healthcare professionals.
-  </strong>
-</p>
-
-
-<hr />
-
-<h2>Roadmap</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Phase</th>
-      <th>Deliverable</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>CHW questionnaire and clinician UI</td>
-      <td><strong>Complete</strong></td>
-    </tr>
-
-    <tr>
-      <td>2</td>
-      <td>3D anatomical visualisation</td>
-      <td><strong>Complete</strong></td>
-    </tr>
-
-    <tr>
-      <td>3</td>
-      <td>Spring Boot backend and REST API</td>
-      <td><strong>Complete</strong></td>
-    </tr>
-
-    <tr>
-      <td>4</td>
-      <td>FastAPI AI service and risk engine</td>
-      <td><strong>Complete</strong></td>
-    </tr>
-
-    <tr>
-      <td>5</td>
-      <td>Sensor telemetry integration</td>
-      <td><strong>In Progress</strong></td>
-    </tr>
-
-    <tr>
-      <td>6</td>
-      <td>ML model validation on labelled clinical data</td>
-      <td><strong>Planned</strong></td>
-    </tr>
-
-    <tr>
-      <td>7</td>
-      <td>Field testing with community health workers</td>
-      <td><strong>Planned</strong></td>
-    </tr>
-
-    <tr>
-      <td>8</td>
-      <td>Regulatory and compliance review</td>
-      <td><strong>Planned</strong></td>
-    </tr>
-  </tbody>
-</table>
-
-
-<hr />
-
-<h2>Documentation</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Document</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td><code>Contract.md</code></td>
-      <td>
-        Inter-service interface and API contract
-      </td>
-    </tr>
-
-    <tr>
-      <td><code>docs/FRONTEND_BACKEND_MAP.md</code></td>
-      <td>
-        Frontend-to-backend endpoint mapping
-      </td>
-    </tr>
-
-    <tr>
-      <td><code>AGENTS.md</code> / <code>CLAUDE.md</code></td>
-      <td>
-        Internal development and assistant working notes
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-
-<hr />
-
-<h2>License</h2>
-
-<p>
-  OsteoSense is currently developed as a research and prototype
-  platform.
-</p>
-
-<p>
-  See <code>LICENSE</code> for licensing information.
-</p>
-
-
-<hr />
-
-<div align="center">
-
-  <h2>OsteoSense</h2>
-
-  <p>
-    <strong>
-      AI-assisted screening for accessible frontline
-      musculoskeletal healthcare.
-    </strong>
-  </p>
-
-  <br />
-
-  <p>
-    Structured clinical assessment.
-    <br />
-    Sensor-informed analysis.
-    <br />
-    AI-assisted risk stratification.
-    <br />
-    Actionable referral support.
-  </p>
-
-  <br />
-
-  <p>
-    <sub>
-      OsteoSense is a prototype and is not intended to replace
-      professional medical diagnosis, clinical judgement, or
-      treatment decisions.
-    </sub>
-  </p>
+<sub>
+OsteoSense is a prototype and is not intended to replace professional
+medical diagnosis, clinical judgement, or treatment decisions.
+</sub>
 
 </div>
